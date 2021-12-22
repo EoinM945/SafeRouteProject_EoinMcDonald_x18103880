@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "918697614720",
+    "project_id": "saferoute-9e40c",
+    "storage_bucket": "saferoute-9e40c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:918697614720:android:d5b860d208eb2efecbf565",
+        "android_client_info": {
+          "package_name": "com.example.saferouteproject_eoinmcdonald_x18103880"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "918697614720-e3bbaeurqtilgg7i4aa6r4jug6ul3doj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.saferouteproject_eoinmcdonald_x18103880",
+            "certificate_hash": "5e027aabe408a2b4bbffccb033e9a9edb435368c"
+          }
+        },
+        {
+          "client_id": "918697614720-qc6qghd3bnctisgep6vdil3m56j3nfpd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNEjvkgCH6nZtZ7uTIL-Q7DGnzykNo9Yw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "918697614720-qc6qghd3bnctisgep6vdil3m56j3nfpd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
