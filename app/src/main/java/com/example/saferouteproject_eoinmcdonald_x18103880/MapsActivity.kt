@@ -7,11 +7,11 @@ import android.graphics.Color
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
-import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -89,7 +89,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback
         ) {
             return
         }
+
+        val traffic1 = LatLng(53.61281, -6.188607)
+        googleMap.addMarker(
+            MarkerOptions()
+                .position(traffic1)
+                .title("Marker in Sydney")
+        )
+
+
         mMap!!.setMyLocationEnabled(true)
+        mMap!!.isTrafficEnabled = true
 //        mMap!!.setOnCameraMoveListener (this)
 //        mMap!!.setOnCameraMoveStartedListener(this)
 //        mMap!!.setOnCameraIdleListener(this)
@@ -98,6 +108,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        )
         setContentView(R.layout.activity_maps)
 
         mapView = findViewById<MapView>(R.id.map1)
@@ -289,10 +303,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback
             parserTask.execute(result)
         }
 
-        override fun doInBackground(vararg url: String?): String {
+        override fun doInBackground(vararg params: String?): String {
             var data = ""
             try{
-                data = downloadUrl(url[0].toString()).toString()
+                data = downloadUrl(params[0].toString()).toString()
             } catch (e: java.lang.Exception) {
                 Log.d("Background Task", e.toString())
             }
