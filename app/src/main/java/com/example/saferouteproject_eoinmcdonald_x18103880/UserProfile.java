@@ -18,6 +18,13 @@ public class UserProfile extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_user_profile);
 
+        final Button routeBtn = findViewById(R.id.route_button);
+
+        routeBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivity(new Intent(UserProfile.this,MapsActivity.class));
+            }
+        });
 
     }
 }
