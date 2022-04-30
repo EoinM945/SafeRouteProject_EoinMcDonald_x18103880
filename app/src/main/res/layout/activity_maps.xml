@@ -82,23 +82,48 @@
 
             </RelativeLayout>
 
-            <Button
-                android:id="@+id/Route_btn"
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_marginStart="2dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginEnd="2dp"
-                android:layout_marginBottom="2dp"
-                android:textAlignment="center"
-                app:cornerRadius="15dp"
-                android:backgroundTint="#F44336"
-                android:fontFamily="@font/baloo"
-                android:text="Start Route"
-                android:textColor="@color/white"
-                android:textSize="20dp"/>
+                android:layout_centerInParent="true">
 
+                <Button
+                    android:id="@+id/start_route_btn"
+                    android:layout_width="170dp"
+                    android:layout_height="60dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:backgroundTint="#F44336"
+                    android:fontFamily="@font/baloo"
+                    android:text="Start Route"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="15dp"
+                    app:cornerRadius="15dp" />
+
+                <Button
+                    android:id="@+id/end_route_btn"
+                    android:layout_width="170dp"
+                    android:layout_height="60dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:backgroundTint="#F44336"
+                    android:fontFamily="@font/baloo"
+                    android:text="End Route"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="15dp"
+                    app:cornerRadius="15dp" />
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
 
         </RelativeLayout>
