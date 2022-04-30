@@ -42,6 +42,10 @@ import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 
+
+
+
+
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback
 //, LocationListener, GoogleMap.OnCameraMoveListener, GoogleMap.OnCameraMoveStartedListener, GoogleMap.OnCameraIdleListener
 {
@@ -72,12 +76,81 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback
 
     var longitude = 0.0
 
+    private val options = MarkerOptions()
+
+    private val latlngs: ArrayList<LatLng> = ArrayList()
+
     override fun onMapReady(googleMap: GoogleMap) {
 
         mapView.onResume()
         mMap = googleMap
 
-        //askPermissionLocation()
+        latlngs.add(LatLng(53.61281, -6.188607))
+        latlngs.add(LatLng(53.597129,-6.16165))
+        latlngs.add(LatLng(53.416024,-6.178003))
+        latlngs.add(LatLng(53.427707,-6.229529))
+        latlngs.add(LatLng(53.401188,-6.400307))
+        latlngs.add(LatLng(53.398081,-6.332871))
+        latlngs.add(LatLng(53.367585,-6.272903))
+        latlngs.add(LatLng(53.333802,-6.244927))
+        latlngs.add(LatLng(53.326326,-6.278169))
+        latlngs.add(LatLng(53.285648,-6.365907))
+        latlngs.add(LatLng(53.338384,-6.34787))
+        latlngs.add(LatLng(53.402639,-6.39721))
+        latlngs.add(LatLng(53.350146,-6.233991))
+        latlngs.add(LatLng(53.521953,-6.147831))
+        latlngs.add(LatLng(53.485324,-6.150638))
+        latlngs.add(LatLng(53.389558,-6.197874))
+        latlngs.add(LatLng(53.359736,-6.200128))
+        latlngs.add(LatLng(53.390784,-6.319665))
+        latlngs.add(LatLng(53.364481,-6.229493))
+        latlngs.add(LatLng(53.371854,-6.331091))
+        latlngs.add(LatLng(53.360746,-6.272876))
+        latlngs.add(LatLng(53.354469,-6.273307))
+        latlngs.add(LatLng(53.349935,-6.267989))
+        latlngs.add(LatLng(53.348989,-6.251547))
+        latlngs.add(LatLng(53.348965,-6.251631))
+        latlngs.add(LatLng(53.346875,-6.290776))
+        latlngs.add(LatLng(53.323302,-6.352401))
+        latlngs.add(LatLng(53.322829,-6.279177))
+        latlngs.add(LatLng(53.316961,-6.326202))
+        latlngs.add(LatLng(53.29159,-6.357379))
+        latlngs.add(LatLng(53.291007,-6.404592))
+        latlngs.add(LatLng(53.284252,-6.378243))
+        latlngs.add(LatLng(53.455111,-6.347932))
+        latlngs.add(LatLng(53.556766,-6.576495))
+        latlngs.add(LatLng(53.621305,-6.424435))
+        latlngs.add(LatLng(53.538837,-6.092235))
+        latlngs.add(LatLng(53.383016,-6.205129))
+        latlngs.add(LatLng(53.403251,-6.281973))
+        latlngs.add(LatLng(53.397285,-6.24499))
+        latlngs.add(LatLng(53.574541,-6.205068))
+        latlngs.add(LatLng(53.363677,-6.224829))
+        latlngs.add(LatLng(53.379515,-6.31058))
+        latlngs.add(LatLng(53.38322,-6.393322))
+        latlngs.add(LatLng(53.35894,-6.422798))
+        latlngs.add(LatLng(53.342264,-6.349423))
+        latlngs.add(LatLng(53.322587,-6.279304))
+        latlngs.add(LatLng(53.30205,-6.283911))
+        latlngs.add(LatLng(53.296688,-6.203905))
+
+
+
+        for (point in latlngs) {
+            options.position(point)
+            options.position(point).title("CCTV")
+            options.position(point).snippet("Garda Traffic Cam")
+            googleMap.addMarker(options.position(point)
+            )
+        }
+
+        /*val traffic1 = LatLng(53.61281, -6.188607)
+        googleMap.addMarker(
+            MarkerOptions()
+                .position(traffic1)
+                .title("Marker in Sydney")
+        )*/
+
 
         if (ActivityCompat.checkSelfPermission(
                 this,
@@ -87,17 +160,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
             return
         }
-
-        val traffic1 = LatLng(53.61281, -6.188607)
-        googleMap.addMarker(
-            MarkerOptions()
-                .position(traffic1)
-                .title("Marker in Sydney")
-        )
-
-
         mMap!!.setMyLocationEnabled(true)
         mMap!!.isTrafficEnabled = true
 //        mMap!!.setOnCameraMoveListener (this)
