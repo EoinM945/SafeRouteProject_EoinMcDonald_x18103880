@@ -15,38 +15,48 @@
         android:padding="20dp"
         android:background="#F44336">
 
-        <ImageView
-            android:id="@+id/profile_image"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/user"
-            android:layout_centerVertical="true"/>
+
 
         <TextView
             android:id="@+id/full_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="User Name"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="30sp"
+            android:layout_marginTop="60dp"
+            android:layout_marginLeft="10dp"
+            android:layout_centerHorizontal="true"
             android:fontFamily="@font/baloo"
-            android:layout_toRightOf="@+id/profile_image"
             android:includeFontPadding="false"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"/>
+            android:text="Welcome"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/user_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="User@gmail.com"
-            android:textColor="@color/white"
-            android:includeFontPadding="false"
-            android:textSize="20sp"
-            android:fontFamily="@font/baloo"
-            android:layout_toRightOf="@+id/profile_image"
             android:layout_below="@+id/full_name"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginLeft="10dp"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/baloo"
+            android:includeFontPadding="false"
+            android:text="TO"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/saferoute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="150dp"
+            android:layout_marginLeft="10dp"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/baloo"
+            android:includeFontPadding="false"
+            android:text="SafeRoute"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:textStyle="bold" />
 
 
     </RelativeLayout>
@@ -67,40 +77,17 @@
             app:cardElevation="10dp"
             app:cardCornerRadius="20dp">
 
-            <RelativeLayout
+            <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="5dp">
+                android:src="@drawable/splashicon"/>
 
 
-
-
-            </RelativeLayout>
 
 
         </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="0dp"
-            android:layout_height="125dp"
-            android:layout_weight="1"
-            android:layout_margin="10dp"
-            app:cardBackgroundColor="#F44336"
-            app:cardElevation="10dp"
-            app:cardCornerRadius="20dp">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="5dp">
-
-
-
-
-            </RelativeLayout>
-
-
-        </com.google.android.material.card.MaterialCardView>
 
 
 
@@ -125,10 +112,10 @@
             android:backgroundTint="#F44336"/>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/settings_button"
+            android:id="@+id/image_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Settings"
+            android:text="Upload Image"
             android:textColor="@color/white"
             android:fontFamily="@font/baloo"
             android:textSize="15sp"

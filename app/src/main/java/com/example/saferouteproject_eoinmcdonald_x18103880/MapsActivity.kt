@@ -25,6 +25,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
@@ -380,6 +381,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback
         for (point in latlngs) {
             options.position(point)
             options.position(point).title("CCTV")
+            options.position(point).icon(BitmapDescriptorFactory.fromResource(R.drawable.cctv))
             options.position(point).snippet("Garda Traffic Cam")
             googleMap.addMarker(options.position(point)
             )
@@ -567,9 +569,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback
             var routes: List<List<HashMap<String, String>>>? = null
             try {
                 jObject = JSONObject(jsonData[0])
+                Log.d("ParserTask", jsonData[0])
                 val parser = DataParser()
+                Log.d("ParserTask", parser.toString())
+                // Starts parsing data
                 routes = parser.parse(jObject)
+                Log.d("ParserTask", "Executing routes")
+                Log.d("ParserTask", routes.toString())
             } catch (e: Exception) {
+                Log.d("ParserTask", e.toString())
                 e.printStackTrace()
             }
             return routes
@@ -578,13 +586,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback
         override fun onPostExecute(result: List<List<HashMap<String, String>>>?) {
             val points: ArrayList<LatLng> = ArrayList()
             if (result != null) {
-                for (i in 0 until result.size) {
+                for (i in result.indices) {
                     points.clear()
                     val lineOptions = PolylineOptions()
-                    val path = result?.get(i)
-                    for (j in 0 until path.size) {
-                        val point = path.get(j)
-                        val lat = point.get("lat")!!.toDouble()
+                    val path = result.get(i)
+                    for (j in path.indices) {
+                        val point = path[j]
+                        val lat = point["lat"]!!.toDouble()
                         val lng = point["lng"]!!.toDouble()
                         val position = LatLng(lat, lng)
                         points.add(position)

@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.auth.User;
 
 public class Login extends AppCompatActivity {
 
@@ -52,6 +53,8 @@ public class Login extends AppCompatActivity {
 
                                 if(getPassword.equals(passwordTxt)){
                                     Toast.makeText(Login.this, "Login Successful", Toast.LENGTH_SHORT).show();
+
+
                                     startActivity(new Intent(Login.this, UserProfile.class));
                                     finish();
                                 }
