@@ -31,6 +31,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
+import kotlinx.android.synthetic.main.activity_maps.*
 import kotlinx.coroutines.*
 import org.json.JSONObject
 import java.io.BufferedReader
@@ -58,7 +59,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback
 
     private val DEFAULT_ZOOM = 15f
 
-    lateinit var B_search: Button
+    //lateinit var B_search: Button
 
     private lateinit var tvCurrentAddress: TextView
 
@@ -428,11 +429,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback
         )
         setContentView(R.layout.activity_maps)
 
+
         mapView = findViewById<MapView>(R.id.map1)
 
         tvCurrentAddress = findViewById<TextView>(R.id.tvAdd)
 
-        B_search = findViewById(R.id.B_search)
+        //B_search = findViewById(R.id.B_search)
 
 
         var mapViewBundle: Bundle? = null
@@ -446,11 +448,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback
 
 
 
-        B_search.setOnClickListener(object : View.OnClickListener {
+        /*B_search.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 searchArea()
             }
-        })
+        })*/
+
+        B_search.setOnClickListener {
+            searchArea()
+        }
 
 
     }

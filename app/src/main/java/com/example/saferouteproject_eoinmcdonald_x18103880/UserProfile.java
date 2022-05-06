@@ -25,6 +25,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.auth.User;
 
 public class UserProfile extends AppCompatActivity {
 
@@ -79,6 +80,7 @@ public class UserProfile extends AppCompatActivity {
 
         final Button routeBtn = findViewById(R.id.route_button);
         final Button uploadImageBtn = findViewById(R.id.image_button);
+        final Button logout = findViewById(R.id.logout_button);
 
         routeBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -88,6 +90,13 @@ public class UserProfile extends AppCompatActivity {
         uploadImageBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 startActivity(new Intent(UserProfile.this,UploadImage.class));
+            }
+        });
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(UserProfile.this, UploadAudio.class));
             }
         });
 
