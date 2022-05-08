@@ -2,12 +2,15 @@ package com.example.saferouteproject_eoinmcdonald_x18103880
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.ProgressDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
+import android.media.MediaRecorder
+import android.net.Uri
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -30,14 +33,14 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.activity_maps.*
 import kotlinx.coroutines.*
 import org.json.JSONObject
-import java.io.BufferedReader
-import java.io.IOException
-import java.io.InputStream
-import java.io.InputStreamReader
+import java.io.*
 import java.lang.Exception
 import java.net.HttpURLConnection
 import java.net.URL
@@ -50,6 +53,13 @@ import kotlin.collections.HashMap
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback
 //, LocationListener, GoogleMap.OnCameraMoveListener, GoogleMap.OnCameraMoveStartedListener, GoogleMap.OnCameraIdleListener
 {
+    var LOG_TAG = "AudioRecordTest"
+    var fileName: String? = null
+
+    var storageReference: StorageReference? = null
+    var progress: ProgressDialog? = null
+
+    lateinit var recorder: MediaRecorder
 
     private var mMap: GoogleMap? = null
 
@@ -59,7 +69,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback
 
     private val DEFAULT_ZOOM = 15f
 
-    //lateinit var B_search: Button
 
     private lateinit var tvCurrentAddress: TextView
 
@@ -437,6 +446,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback
         //B_search = findViewById(R.id.B_search)
 
 
+        // Record to the external cache directory for visibility
+        fileName = externalCacheDir!!.absolutePath
+        fileName += "/audiorecordtest.mp3"
+
+        storageReference = FirebaseStorage.getInstance().reference
+
+        progress = ProgressDialog(this)
+
+
         var mapViewBundle: Bundle? = null
         if (savedInstanceState != null) {
             mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_BUNDLE_KEY)
@@ -458,6 +476,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback
             searchArea()
         }
 
+
+        start_route_btn.setOnClickListener{
+            startRecording()
+            Toast.makeText(this@MapsActivity,"Recording Started....", Toast.LENGTH_SHORT).show()
+        }
+        end_route_btn.setOnClickListener {
+            stopRecording()
+            Toast.makeText(this@MapsActivity,"Recording Stopped/Uploading", Toast.LENGTH_SHORT).show()
+        }
 
     }
 
@@ -718,6 +745,35 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback
         private fun moveCamera(latLng: LatLng, zoom: Float) {
             // mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom))
         }
+
+    fun startRecording() {
+        recorder = MediaRecorder()
+        recorder.setAudioSource(MediaRecorder.AudioSource.MIC)
+        recorder.setOutputFormat(MediaRecorder.OutputFormat.AAC_ADTS)
+        recorder.setOutputFile(fileName)
+        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+        try {
+            recorder.prepare()
+        } catch (e: IOException) {
+            Log.e(LOG_TAG, "prepare() failed")
+        }
+        recorder.start()
+    }
+
+    fun stopRecording() {
+        recorder.stop()
+        recorder.release()
+        //recorder = null
+        uploadAudio()
+    }
+
+    fun uploadAudio() {
+        progress!!.setMessage("Uploading Audio . . .")
+        progress!!.show()
+        val filepath = storageReference!!.child("Audio").child("new_audio.mpeg")
+        val uri = Uri.fromFile(File(fileName))
+        filepath.putFile(uri).addOnSuccessListener { progress!!.dismiss() }
+    }
 
 
         /*override fun onLocationChanged(location: Location?) {

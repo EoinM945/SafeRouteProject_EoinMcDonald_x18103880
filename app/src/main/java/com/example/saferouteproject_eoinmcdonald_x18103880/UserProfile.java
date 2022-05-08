@@ -53,6 +53,8 @@ public class UserProfile extends AppCompatActivity {
                                     Manifest.permission.ACCESS_FINE_LOCATION, false);
                             Boolean coarseLocationGranted = result.getOrDefault(
                                     Manifest.permission.ACCESS_COARSE_LOCATION,false);
+                            Boolean recordingGranted = result.getOrDefault(
+                            Manifest.permission.RECORD_AUDIO,false);
                             if (fineLocationGranted != null && fineLocationGranted) {
                                 // Precise location access granted.
                             } else if (coarseLocationGranted != null && coarseLocationGranted) {
@@ -72,7 +74,8 @@ public class UserProfile extends AppCompatActivity {
 // rationale dialog. For more details, see Request permissions.
         locationPermissionRequest.launch(new String[] {
                 Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.RECORD_AUDIO
         });
 
 

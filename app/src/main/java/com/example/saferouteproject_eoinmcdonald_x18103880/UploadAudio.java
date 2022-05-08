@@ -28,8 +28,8 @@ import java.io.IOException;
 
 public class UploadAudio extends AppCompatActivity {
 
-    private static final String LOG_TAG = "AudioRecordTest";
     private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
+    private static final String LOG_TAG = "AudioRecordTest";
     private static String fileName = null;
 
     private RecordButton recordButton = null;
@@ -49,9 +49,9 @@ public class UploadAudio extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode){
+        switch (requestCode) {
             case REQUEST_RECORD_AUDIO_PERMISSION:
-                permissionToRecordAccepted  = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                permissionToRecordAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
                 break;
         }
         if (!permissionToRecordAccepted ) finish();
@@ -90,10 +90,10 @@ public class UploadAudio extends AppCompatActivity {
         player = null;
     }
 
-    private void startRecording() {
+    public void startRecording() {
         recorder = new MediaRecorder();
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+        recorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
         recorder.setOutputFile(fileName);
         recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 
@@ -106,7 +106,7 @@ public class UploadAudio extends AppCompatActivity {
         recorder.start();
     }
 
-    private void stopRecording() {
+    public void stopRecording() {
         recorder.stop();
         recorder.release();
         recorder = null;
@@ -114,7 +114,7 @@ public class UploadAudio extends AppCompatActivity {
         uploadAudio();
     }
 
-    private void uploadAudio() {
+    public void uploadAudio() {
 
         progress.setMessage("Uploading Audio . . .");
         progress.show();
