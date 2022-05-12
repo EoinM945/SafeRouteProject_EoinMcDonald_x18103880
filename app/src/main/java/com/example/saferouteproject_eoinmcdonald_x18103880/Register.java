@@ -22,6 +22,8 @@ public class Register extends AppCompatActivity {
     final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://saferoute-9e40c-default-rtdb.firebaseio.com/");
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

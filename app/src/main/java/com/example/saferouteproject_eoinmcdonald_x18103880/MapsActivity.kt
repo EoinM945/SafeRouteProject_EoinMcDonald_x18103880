@@ -3,7 +3,6 @@ package com.example.saferouteproject_eoinmcdonald_x18103880
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.ProgressDialog
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Address
@@ -17,7 +16,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
-import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
@@ -33,7 +31,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -47,7 +44,6 @@ import java.net.URL
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
-
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback
@@ -391,19 +387,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback
         for (point in latlngs) {
             options.position(point)
             options.position(point).title("CCTV")
-            options.position(point).icon(BitmapDescriptorFactory.fromResource(R.drawable.cctv))
+            options.position(point).icon(BitmapDescriptorFactory.fromResource(R.drawable.cameras))
             options.position(point).snippet("Garda Traffic Cam")
             googleMap.addMarker(options.position(point)
             )
         }
-
-        /*val traffic1 = LatLng(53.61281, -6.188607)
-        googleMap.addMarker(
-            MarkerOptions()
-                .position(traffic1)
-                .title("Marker")
-        )*/
-
 
         if (ActivityCompat.checkSelfPermission(
                 this,
@@ -413,20 +401,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+
             return
         }
         mMap!!.setMyLocationEnabled(true)
         mMap!!.isTrafficEnabled = true
-//        mMap!!.setOnCameraMoveListener (this)
-//        mMap!!.setOnCameraMoveStartedListener(this)
-//        mMap!!.setOnCameraIdleListener(this)
+        mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(53.237790, -6.118200), 15f))
+
     }
 
 
@@ -438,13 +419,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback
         )
         setContentView(R.layout.activity_maps)
 
-
         mapView = findViewById<MapView>(R.id.map1)
 
         tvCurrentAddress = findViewById<TextView>(R.id.tvAdd)
-
-        //B_search = findViewById(R.id.B_search)
-
 
         // Record to the external cache directory for visibility
         fileName = externalCacheDir!!.absolutePath
@@ -463,19 +440,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback
         mapView.onCreate(mapViewBundle)
         mapView.getMapAsync(this)
 
-
-
-
-        /*B_search.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                searchArea()
-            }
-        })*/
-
         B_search.setOnClickListener {
             searchArea()
         }
 
+        B_clear.setOnClickListener {
+            mapView.onCreate(mapViewBundle)
+            mapView.getMapAsync(this)
+        }
 
         start_route_btn.setOnClickListener{
             startRecording()
@@ -553,9 +525,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback
 
                     //getting URL to the google Directions API
                     val url: String =
-                        getDirectionsUrl(origin.getPosition(), destination.getPosition())!!
+                        getDirectionsUrl(origin.position, destination.position)!!
 
-                    val downloadTask = DownloadTask()
+                    val downloadTask: DownloadTask = DownloadTask()
 
                     //start downloading the json data from google directions API
                     downloadTask.execute(url)
@@ -566,7 +538,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback
 
 
     @Throws(IOException::class)
-    private fun downloadUrl(strUrl: String): String {
+    private fun downloadUrl(strUrl: String): String? {
         var data = ""
         var iStream: InputStream? = null
         var urlConnection: HttpURLConnection? = null
@@ -596,55 +568,50 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback
 
     //parsing into JSON format
     inner class ParserTask :
-        AsyncTask<String, Int, List<List<HashMap<String, String>>>>() {
-        override fun doInBackground(vararg jsonData: String): List<List<HashMap<String, String>>>? {
+        AsyncTask<String?, Int?, List<List<HashMap<String, String>>>?>() {
+        override fun doInBackground(vararg jsonData: String?): List<List<HashMap<String, String>>>? {
             val jObject: JSONObject
-            var routes: List<List<HashMap<String, String>>>? = null
+            var routes: List<List<HashMap<String, String>>>? =
+                null
             try {
                 jObject = JSONObject(jsonData[0])
-                Log.d("ParserTask", jsonData[0])
                 val parser = DataParser()
-                Log.d("ParserTask", parser.toString())
                 // Starts parsing data
                 routes = parser.parse(jObject)
-                Log.d("ParserTask", "Executing routes")
-                Log.d("ParserTask", routes.toString())
             } catch (e: Exception) {
-                Log.d("ParserTask", e.toString())
                 e.printStackTrace()
             }
             return routes
         }
 
         override fun onPostExecute(result: List<List<HashMap<String, String>>>?) {
-            val points: ArrayList<LatLng> = ArrayList()
-            if (result != null) {
-                for (i in result.indices) {
-                    points.clear()
-                    val lineOptions = PolylineOptions()
-                    val path = result.get(i)
-                    for (j in path.indices) {
-                        val point = path[j]
-                        val lat = point["lat"]!!.toDouble()
-                        val lng = point["lng"]!!.toDouble()
-                        val position = LatLng(lat, lng)
-                        points.add(position)
-                    }
-                    lineOptions.addAll(points)
-                    lineOptions.width(12F)
-                    lineOptions.color(Color.RED)
-                    lineOptions.geodesic(true)
-                    // Drawing polyline in the Google Map for the i-th route
-
-                    mMap!!.addPolyline(lineOptions)
+            val points = ArrayList<LatLng?>()
+            val lineOptions = PolylineOptions()
+            for (i in result!!.indices){
+                val path =
+                    result[i]
+                for (j in path.indices){
+                    val point = path[j]
+                    val lat = point["lat"]!!.toDouble()
+                    val lng = point["lng"]!!.toDouble()
+                    val position = LatLng(lat, lng)
+                    points.add(position)
                 }
+                lineOptions.addAll(points)
+                lineOptions.width(8f)
+                lineOptions.color(Color.RED)
+                lineOptions.geodesic(true)
             }
+            if (points.size != 0) mMap!!.addPolyline(lineOptions)
+
+            if(lineOptions == null)
+                Toast.makeText(this@MapsActivity,"Error finding routes", Toast.LENGTH_SHORT).show()
 
         }
     }
 
         inner class DownloadTask :
-            AsyncTask<String, Void, String>() {
+            AsyncTask<String?, Void?, String>() {
 
             override fun onPostExecute(result: String) {
                 super.onPostExecute(result)
@@ -652,7 +619,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback
                 parserTask.execute(result)
             }
 
-            override fun doInBackground(vararg url: String): String {
+            override fun doInBackground(vararg url: String?): String {
                 var data = ""
                 try {
                     data = downloadUrl(url[0].toString()).toString()
@@ -665,15 +632,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback
         }
 
 
-        private fun getDirectionsUrl(origin: LatLng, dest: LatLng): String {
+        private fun getDirectionsUrl(origin: LatLng, dest: LatLng): String? {
             //Origin of route
             val str_origin = "origin=" + origin.latitude + "," + origin.longitude
 
             //Destination of Route
-            val str_destination = "destination" + dest.latitude + "," + dest.longitude
+            val str_destination = "destination=" + dest.latitude + "," + dest.longitude
 
             //transportation mode
-            val mode = "mode=walking"
+            val mode = "mode=WALKING"
 
             //building parameters of webservice
             val parameters = "$str_origin&$str_destination&$mode"
@@ -740,13 +707,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback
             } catch (se: Exception) {
                 Log.e("TAG", "Security Exception")
             }
+
         }
 
         private fun moveCamera(latLng: LatLng, zoom: Float) {
-            // mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom))
+            mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom))
         }
 
-    fun startRecording() {
+    private fun startRecording() {
         recorder = MediaRecorder()
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC)
         recorder.setOutputFormat(MediaRecorder.OutputFormat.AAC_ADTS)
@@ -760,14 +728,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback
         recorder.start()
     }
 
-    fun stopRecording() {
+    private fun stopRecording() {
         recorder.stop()
         recorder.release()
         //recorder = null
         uploadAudio()
     }
 
-    fun uploadAudio() {
+    private fun uploadAudio() {
         progress!!.setMessage("Uploading Audio . . .")
         progress!!.show()
         val filepath = storageReference!!.child("Audio").child("new_audio.mpeg")
@@ -776,67 +744,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback
     }
 
 
-        /*override fun onLocationChanged(location: Location?) {
-       val geocoder = Geocoder (this, Locale.getDefault())
-       var addresses: List<Address>? = null
-     try {
-           addresses = geocoder.getFromLocation(location!!.latitude, location.longitude, 1)
-       } catch (e: IOException) {
-           e.printStackTrace()
-       }
-       setAddress(addresses!![0])
-    }
 
-   private fun setAddress(addresses: Address) {
-       if (addresses != null) {
-
-           if (addresses.getAddressLine(0) != null) {
-               tvCurrentAddress!!.setText(addresses.getAddressLine(0))
-           }
-            if (addresses.getAddressLine(1) != null) {
-                tvCurrentAddress!!.setText(
-                       tvCurrentAddress.getText().toString() + addresses.getAddressLine(1)
-               )
-           }
-        }
-    }
-
-
-
-    override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) {
-
-    }
-
-    override fun onProviderEnabled(provider: String) {
-
-    }
-
-    override fun onProviderDisabled(provider: String) {
-
-    }
-
-    override fun onCameraMove() {
-
-    }
-
-    override fun onCameraMoveStarted(p0: Int) {
-
-    }
-
-    override fun onCameraIdle() {
-        var addresses: List<Address>? = null
-        val geocoder = Geocoder (this, Locale.getDefault())
-        try {
-            addresses = geocoder.getFromLocation( mMap!!.getCameraPosition().target.latitude, mMap!!.getCameraPosition().target.longitude, 1)
-
-            setAddress(addresses!![0])
-
-       } catch (e: IndexOutOfBoundsException) {
-            e.printStackTrace()
-       } catch (e: IOException) {
-            e.printStackTrace()
-        }
-    }*/
 
 
     }

@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -99,7 +100,10 @@ public class UserProfile extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(UserProfile.this, UploadAudio.class));
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(UserProfile.this,Login.class));
+                finish();
+                Toast.makeText(UserProfile.this, "Logged Out", Toast.LENGTH_SHORT).show();
             }
         });
 

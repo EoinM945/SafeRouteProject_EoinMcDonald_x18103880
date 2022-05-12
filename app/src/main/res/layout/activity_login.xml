@@ -6,14 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".Login"
     android:orientation="vertical"
-    android:gravity="center">
+    android:gravity="center"
+    >
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/baloo"
         android:gravity="center"
-        android:text="Login"
+        android:text="@string/login"
         android:textColor="#000000"
         android:textSize="30sp"
         android:textStyle="bold" />
@@ -52,7 +53,7 @@
         android:layout_marginTop="40dp"
         android:layout_marginEnd="20dp"
         android:fontFamily="@font/baloo"
-        android:text="Login"
+        android:text="@string/login"
         app:backgroundTint="#F44336" />
 
     <LinearLayout
@@ -65,7 +66,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Don't Have An Account?"
+            android:text="@string/no_account"
             android:fontFamily="@font/baloo"/>
 
         <TextView
@@ -73,7 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:text="Register Now"
+            android:text="@string/Register"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
