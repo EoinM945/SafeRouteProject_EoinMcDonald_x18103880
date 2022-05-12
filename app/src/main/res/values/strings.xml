@@ -31,4 +31,10 @@
     <string name="upload_image">Upload Image</string>
     <string name="settings">Settings</string>
     <string name="logout">Logout</string>
+    <string name="error_field_required">field required</string>
+    <string name="error_invalid_email">email invalid</string>
+    <string name="error_invalid_password">password invalid</string>
+    <string name="error_login_failed">login failed</string>
+    <string name="login_successfully">login successful</string>
+    <string name="registration_successfully">registration successful</string>
 </resources>
