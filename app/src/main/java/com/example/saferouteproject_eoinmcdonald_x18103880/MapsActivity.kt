@@ -47,7 +47,6 @@ import kotlin.collections.HashMap
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback
-//, LocationListener, GoogleMap.OnCameraMoveListener, GoogleMap.OnCameraMoveStartedListener, GoogleMap.OnCameraIdleListener
 {
     var LOG_TAG = "AudioRecordTest"
     var fileName: String? = null
@@ -565,6 +564,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback
         return data
     }
 
+    /*
+    the two inner classes below are where Im sure my routing is failing. the parser task is parsing the user input into
+    JSON data and then searching for the location to draw a polyline on the map but for the life of me I have not been able
+    to get the polyines working as I have spent too long so i decided to upload as is but just leaving this
+    comment here to clarify that I know where my problem lies and I have done everything I could to try and
+    fix it. 
+     */
 
     //parsing into JSON format
     inner class ParserTask :

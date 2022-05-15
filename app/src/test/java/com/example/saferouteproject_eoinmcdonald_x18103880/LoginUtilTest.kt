@@ -1,9 +1,10 @@
 package com.example.saferouteproject_eoinmcdonald_x18103880
 
-import com.google.common.truth.Truth.assertThat
+import com.google.common.truth.Truth
 import org.junit.Test
 
-class RegistrationUtilTest {
+class LoginUtilTest {
+
     // Write tests for the RegistrationUtil class considering all the conditions
     // annotate each function with @Test
     // We can use backtick to write function name..
@@ -12,68 +13,70 @@ class RegistrationUtilTest {
     fun `empty email returns false`(){
         // Pass the value to the function of RegistrationUtil class
         // since RegistrationUtil is an object/ singleton we do not need to create its object
-        val result = RegistrationUtil.validRegistrationInput(
+        val result = LoginUtil.validLoginInput(
             "",
-            "eoin",
-            "0001234",
-            "123",
             "123"
         )
         // assertThat() comes from the truth library that we added earlier
         // put result in it and assign the boolean that it should return
-        assertThat(result).isFalse()
+        Truth.assertThat(result).isFalse()
+    }
+
+    @Test
+    fun `empty password returns false`(){
+        // Pass the value to the function of RegistrationUtil class
+        // since RegistrationUtil is an object/ singleton we do not need to create its object
+        val result = LoginUtil.validLoginInput(
+            "eoin@gmail.com",
+            ""
+        )
+        // assertThat() comes from the truth library that we added earlier
+        // put result in it and assign the boolean that it should return
+        Truth.assertThat(result).isFalse()
     }
 
     // follow the same for other cases also
     // in this test if username and correctly repeated password returns true
     @Test
     fun `email and correctly repeated password returns true`() {
-        val result = RegistrationUtil.validRegistrationInput(
+        val result = LoginUtil.validLoginInput(
             "eoin@gmail.com",
-            "eoin",
-            "0001234",
-            "123",
             "123"
+
         )
-        assertThat(result).isTrue()
+        Truth.assertThat(result).isTrue()
     }
 
     // in this test userName already taken returns false
     @Test
-    fun `email already taken returns false`() {
-        val result = RegistrationUtil.validRegistrationInput(
-            "eoin@gmail.com",
-            "eoin",
-            "0001234",
-            "123",
-            "123"
+    fun `incorrect email returns false`() {
+        val result = LoginUtil.validLoginInput(
+            "eoin2666@gmail.com",
+            "eoin"
+
         )
-        assertThat(result).isFalse()
+        Truth.assertThat(result).isFalse()
     }
 
     // if confirm password does nt matches the password return false
     @Test
-    fun `incorrect confirm password returns false`() {
-        val result = RegistrationUtil.validRegistrationInput(
+    fun `incorrect password returns false`() {
+        val result = LoginUtil.validLoginInput(
             "eoin@gmail.com",
-            "eoin",
-            "0001234",
-            "123",
-            "1234"
+            "eoin9999"
+
         )
-        assertThat(result).isFalse()
+        Truth.assertThat(result).isFalse()
     }
 
     // in this test if password has less than two digits than return false
     @Test
     fun `less than two digit password return false`() {
-        val result = RegistrationUtil.validRegistrationInput(
+        val result = LoginUtil.validLoginInput(
             "eoin@gmail.com",
-            "eoin",
-            "0001234",
-            "1",
-            "1"
+            "eoin"
+
         )
-        assertThat(result).isFalse()
+        Truth.assertThat(result).isFalse()
     }
 }

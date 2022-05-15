@@ -41,6 +41,7 @@ public class LoginTest {
     @Test
     public void emailIsEmpty() {
         onView(withId(R.id.email)).perform(clearText());
+        onView(withId(R.id.password)).perform(typeText("123456"), closeSoftKeyboard());
         onView(withId(R.id.loginBtn)).perform(click());
         onView(withId(R.id.email)).check(matches(withError(getString(R.string.error_field_required))));
     }
@@ -58,6 +59,7 @@ public class LoginTest {
     @Test
     public void emailIsInvalid() {
         onView(withId(R.id.email)).perform(typeText("invalid"), closeSoftKeyboard());
+        onView(withId(R.id.password)).perform(typeText("123456"), closeSoftKeyboard());
         onView(withId(R.id.loginBtn)).perform(click());
         onView(withId(R.id.email)).check(matches(withError(getString(R.string.error_invalid_email))));
     }

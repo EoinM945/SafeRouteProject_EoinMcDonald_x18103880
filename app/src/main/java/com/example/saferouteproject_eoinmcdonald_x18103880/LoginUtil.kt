@@ -1,20 +1,17 @@
 package com.example.saferouteproject_eoinmcdonald_x18103880
 
-object RegistrationUtil {
+object LoginUtil {
 
     private val existingUsers = listOf("Eoin" , "Peter")
 
 
-    fun validRegistrationInput(
+    fun validLoginInput(
         email : String,
-        fullname : String,
-        phone : String,
-        password : String,
-        confirmPassword : String
+        password : String
     ) : Boolean {
         // write conditions along with their return statement
         // if username / password / confirm password are empty return false
-        if (email.isEmpty() || fullname.isEmpty() || phone.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()){
+        if (email.isEmpty()|| password.isEmpty()){
             return false
         }
         // if username exists in the existingUser list return false
@@ -22,7 +19,7 @@ object RegistrationUtil {
             return false
         }
         // if password does not matches confirm password return false
-        if (password != confirmPassword){
+        if (password != password){
             return false
         }
         // if digit count of the password is less than 2 return false
